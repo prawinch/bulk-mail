@@ -27,6 +27,7 @@ public class EmailService {
     String serverUrl = "md-98.webhostbox.net";
     String password = "Jasmine123#";
     String serverPort = "465";
+    String emailText = "<h1>Webinar details</h1>";
 
     public EmailService() throws NoSuchProviderException, IOException {
         getEmailIds();
@@ -48,6 +49,11 @@ public class EmailService {
         em.createMessage();
     }
 
+    public String getEmailText() {
+//        http://freeemaileditor.com/edit/default.asp?n=47469
+        return "<tbody><tr><td><div id=\"innerContent\"><table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding: 0px; padding-top: 0px; padding-bottom: 15px;\"><tbody><tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"\"><tbody><tr><td bgcolor=\"\"><div id=\"txtHolder-2\" class=\"txtEditorClass\" style=\"color: #000000; font-size: 26px; font-family: 'Impact'; text-align: Left\"><div style=\"text-align: center;\"><span style=\"font-size: xx-large;\">Free webinar from QA Masters</span></div></div></td></tr></tbody></table></td></tr></tbody></table><table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"padding: 0px; padding-top: 0px; padding-bottom: 15px;\"><tbody><tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"\"><tbody><tr><td bgcolor=\"\"><div id=\"txtHolder-3\" class=\"txtEditorClass\" style=\"color: #666666; font-size: 14px; font-family: 'Arial'; text-align: Left\"><div style=\"text-align: center;\"><span style=\"font-family: Arial, Verdana; font-size: 10pt; font-weight: bold;\">Are you ready for the next generation testing jobs..??&nbsp;</span></div><div style=\"font-weight: normal; text-align: center;\"><span style=\"font-family: Arial, Verdana; font-size: 13.3333px;\"><br></span></div><span style=\"font-weight: normal; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal;\"><div style=\"text-align: center;\"><span style=\"font-size: 10pt;\"><a href=\"http://qa-masters.com\">QA Masters</a> is coming forward to help you decide your future milestones.&nbsp;</span></div></span><div style=\"font-weight: normal; text-align: center;\"><br></div><span style=\"font-weight: normal; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal;\"><div style=\"text-align: center;\"><span style=\"font-size: 10pt;\">Do you want to know how.??</span></div></span><div style=\"font-weight: normal; text-align: center; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal;\"><br></div><div style=\"font-weight: normal; text-align: center; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal;\">Very simple, Join this webinar and know what is current market requirements and suggestions from Industry experts...&nbsp;</div><div style=\"font-weight: normal; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal;\"><br></div><div style=\"font-weight: normal; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; text-align: center;\"><span style=\"font-family: Arial, Verdana;\">Why wait.!!</span></div><div style=\"font-weight: normal; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; text-align: center;\"><span style=\"font-family: Arial, Verdana;\">Signup now...!!!&nbsp;</span></div><div style=\"font-weight: normal; font-family: Arial, Verdana; font-size: 10pt; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal;\"><div style=\"text-align: center;\"><span style=\"font-size: 10pt;\">You might be the lucky one to Win a </span><span style=\"font-size: 10pt; font-family: &quot;Comic Sans MS&quot;; color: rgb(255, 0, 0);\">PENDRIVE </span><span style=\"font-size: 10pt; font-family: &quot;Comic Sans MS&quot;;\">and</span><span style=\"font-size: 10pt; font-family: &quot;Comic Sans MS&quot;; color: rgb(255, 0, 0);\"> </span><span style=\"font-size: 10pt; font-family: &quot;Comic Sans MS&quot;;\">many more</span><span style=\"font-size: 10pt; font-family: &quot;Comic Sans MS&quot;; color: rgb(255, 0, 0);\"> Exciting Discount Offers</span><span style=\"font-size: 10pt; font-family: &quot;Comic Sans MS&quot;;\"> waiting for you</span></div><br></div></div></td></tr></tbody></table></td></tr></tbody></table><table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\"><tbody><tr><td align=\"Center\" bgcolor=\"#f1f1f1\"><div><div id=\"txtHolder-4\" class=\"txtEditorClass\" style=\"color: #5d5d5d; font-size: 11px; font-family: 'Arial';\">Click <a href=\"http://qa-masters.com/feebies/webinar\">here</a> to signup</div></div></td></tr></tbody></table></div></td></tr></tbody>";
+    }
+
     public void createMessage() {
         try {
             message = new MimeMessage(session);
@@ -66,7 +72,8 @@ public class EmailService {
 
             // Create the html part
             messageBodyPart = new MimeBodyPart();
-            String htmlMessage = "<h1>Webinar details</h1>";
+
+            String htmlMessage = getEmailText();
             messageBodyPart.setContent(htmlMessage, "text/html");
 
             // Add html part to multi part

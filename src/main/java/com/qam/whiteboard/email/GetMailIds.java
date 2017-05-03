@@ -36,7 +36,9 @@ public class GetMailIds {
                 e.printStackTrace();
             }
         }
-
+//@TODO: Remove hardcoded text
+//        allMails.removeAll(allMails);
+//        allMails.add("praveen.cherukuri@hotmail.com");
         return allMails;
     }
 
