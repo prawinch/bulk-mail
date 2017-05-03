@@ -4,7 +4,10 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +19,19 @@ import java.util.Properties;
 
 public class EmailService {
     List<String> allMails = new ArrayList<String>();
+    Properties props;
+    Session session;
+    Transport transport;
+    MimeMessage message;
+    String userName = "praveen@qa-masters.com";
+    String serverUrl = "md-98.webhostbox.net";
+    String password = "Jasmine123#";
+    String serverPort = "465";
 
-    public static void main(String[] args) throws IOException {
-        EmailService em = new EmailService();
-        em.sendEmailToIds();
-    }
-
-    public void sendEmailToIds() throws IOException {
+    public EmailService() throws NoSuchProviderException, IOException {
         getEmailIds();
 
-        String userName = "praveen@qa-masters.com";
-        String serverUrl = "md-98.webhostbox.net";
-        String password = "Jasmine123#";
-        String serverPort = "465";
-
-        Properties props = System.getProperties();
+        props = System.getProperties();
         props.put("mail.smtp.starttls.enable", true); // added this line
         props.put("mail.smtp.host", serverUrl);
         props.put("mail.smtp.user", userName);
@@ -38,18 +39,22 @@ public class EmailService {
         props.put("mail.smtp.port", serverPort);
         props.put("mail.smtp.auth", true);
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        session = Session.getInstance(props, null);
+        transport = session.getTransport("smtp");
+    }
 
-        Session session = Session.getInstance(props, null);
-        MimeMessage message = new MimeMessage(session);
+    public static void main(String[] args) throws IOException, NoSuchProviderException {
+        EmailService em = new EmailService();
+        em.createMessage();
+    }
 
-        // Create the email addresses involved
+    public void createMessage() {
         try {
-            InternetAddress from = new InternetAddress(userName);
-            message.setSubject("Webinar 2017");
-            message.setFrom(from);
-            addAllReciepients(message);
+            message = new MimeMessage(session);
 
-            // Create a multi-part to combine the parts
+            message.setFrom(new InternetAddress(userName));
+            message.setSubject("Webinar 2017");
+
             Multipart multipart = new MimeMultipart("alternative");
 
             // Create your text message part
@@ -61,13 +66,13 @@ public class EmailService {
 
             // Create the html part
             messageBodyPart = new MimeBodyPart();
-            String htmlMessage = "Webinar details";
+            String htmlMessage = "<h1>Webinar details</h1>";
             messageBodyPart.setContent(htmlMessage, "text/html");
-
 
             // Add html part to multi part
             multipart.addBodyPart(messageBodyPart);
             message.setContent(multipart);
+//            message.setContent(someHtmlMessage, "text/html; charset=utf-8");
 
 
             messageBodyPart = new MimeBodyPart();
@@ -78,16 +83,9 @@ public class EmailService {
             multipart.addBodyPart(messageBodyPart);
             message.setContent(multipart);
 
-            // Send message
-            Transport transport = session.getTransport("smtp");
-            transport.connect(serverUrl, userName, password);
-            System.out.println("Transport: " + transport.toString());
-            transport.sendMessage(message, message.getAllRecipients());
-        } catch (AddressException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            // TODO Auto-generated catch block
+
+            addAllReciepients(message);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -99,11 +97,20 @@ public class EmailService {
 
 
     private void addAllReciepients(MimeMessage message) throws MessagingException {
+        transport.connect(serverUrl, userName, password);
+        System.out.println("Transport: " + transport.toString());
+        System.out.println("Sending mails to : " + allMails.size());
         for (String mailId : allMails) {
             try {
                 System.out.println("Sending mail to " + mailId);
-                message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(mailId));
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(mailId.trim()));
+                System.out.println("Total recipients before sending mail : " + message.getAllRecipients().length);
+                transport.sendMessage(message, message.getAllRecipients());
+                System.out.println("Total recipients after sending mail : " + message.getAllRecipients().length);
+//                message.setRecipients(Message.RecipientType.TO, "");
+//                System.out.println("Total recipients after reset : " + message.getAllRecipients().length);
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Sending failed to " + mailId);
             }
         }
