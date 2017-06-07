@@ -24,9 +24,9 @@ public class EmailService {
     Transport transport;
     MimeMessage message;
     String userName = "praveen@qa-masters.com";
-    String serverUrl = "md-98.webhostbox.net";
-    String password = "Jasmine123#";
-    String serverPort = "465";
+    String serverUrl = "smtp-relay.sendinblue.com";
+    String password = "kMf0Y3XjzqnHLdPg";
+    String serverPort = "587";
     String emailText = "<h1>Webinar details</h1>";
 
     public EmailService() throws NoSuchProviderException, IOException {
