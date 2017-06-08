@@ -5,9 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SendMsgWhatsappUI {
-    public static void main(String[] args) {
+    static WebDriver driver;
 
-        String phoneNumber = "+918143117717";
+    public static void sendMessageTo(String phoneNumber) {
+
         String message = "*Free Webinar* from *QA Masters* - Training by experts \n" +
                 "\n" +
                 "*Date* June 24\n" +
@@ -29,9 +30,6 @@ public class SendMsgWhatsappUI {
                 "\n" +
                 "\n" +
                 "Early registrations will reward you with attractive *free gifts*\n";
-        System.setProperty("webdriver.chrome.driver", "D:\\Selenium_Support\\Jar Files\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://web.whatsapp.com/");
 
         driver.findElement(By.xpath("//button[@title='New chat']")).click();
 
@@ -45,6 +43,14 @@ public class SendMsgWhatsappUI {
 
         System.out.println("Now here... ");
 
+
+    }
+//    public static void main(String[] args) {
+
+    public static void launchBrowser() {
+        System.setProperty("webdriver.chrome.driver", "D:\\Selenium_Support\\Jar Files\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://web.whatsapp.com/");
 
     }
 }
