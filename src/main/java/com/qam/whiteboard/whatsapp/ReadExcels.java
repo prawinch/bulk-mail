@@ -13,27 +13,24 @@ import java.io.IOException;
  */
 public class ReadExcels {
     public static void main(String[] args) throws IOException, BiffException, WriteException {
-        Workbook workbook = Workbook.getWorkbook(new File("D:\\Eclipse_WS\\bulk-mail\\src\\main\\resources\\Campaing.xls"));
+        Workbook workbook = Workbook.getWorkbook(new File("src\\main\\resources\\f2h.xls"));
 
         WritableWorkbook copy = Workbook.createWorkbook(new File("output.xls"), workbook);
-        WritableSheet sheet2 = copy.getSheet(0);
+        WritableSheet sheet2 = copy.getSheet(1);
         SendMsgWhatsappUI.launchBrowser();
         WritableCell cell;
 
 
-        Sheet sheet = workbook.getSheet(0);
+        Sheet sheet = workbook.getSheet(1);
 
         int rowCount = sheet.getRows();
 
         for (int i = 0; i < rowCount; i++) {
-            System.out.println(sheet.getCell(0, i).getContents());
-
-            SendMsgWhatsappUI.sendMessageTo(sheet.getCell(0, i).getContents());
-
+            System.out.println(sheet.getCell(1, i).getContents());
+            SendMsgWhatsappUI.sendMessageTo(sheet.getCell(1, i).getContents());
             Label l = new Label(2, i, "done");
             cell = l;
             sheet2.addCell(cell);
-
         }
         copy.write();
         copy.close();
