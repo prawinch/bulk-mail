@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ContactInfo {
 
-
+    private String subscribed;
     private String phoneNumber;
     private String name;
     private String farm2Home;
